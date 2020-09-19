@@ -1,0 +1,434 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.5
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost:3306
+-- Tiempo de generación: 19-09-2020 a las 01:43:25
+-- Versión del servidor: 10.3.16-MariaDB
+-- Versión de PHP: 7.3.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `id14698030_proyecto`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `clients`
+--
+
+CREATE TABLE `clients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `contact` varchar(255) DEFAULT NULL,
+  `title` varchar(40) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `city` varchar(40) DEFAULT NULL,
+  `country` varchar(40) DEFAULT NULL,
+  `phone` varchar(100) DEFAULT NULL,
+  `email` varchar(80) DEFAULT NULL,
+  `website` varchar(200) DEFAULT NULL,
+  `comments` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `clients`
+--
+
+INSERT INTO `clients` (`id`, `name`, `contact`, `title`, `address`, `city`, `country`, `phone`, `email`, `website`, `comments`) VALUES
+(1, 'Cliente1', 'Contacto', 'Titulo Cliente', 'Casa 1 calle 2 distrito 3', 'Lima', 'Peru', '1231243', 'sdkffoer@dsfa.com', NULL, '<br>'),
+(2, 'Javier Paredes', '98485743', 'J.Paredes', 'Calle 3. Urbaniz. Las Flores', 'Lima', 'Peru', '98485743', 'javierparedes123@gmail.com', NULL, '<b>Empresario&nbsp;</b>'),
+(3, 'Luis Soto', 'Contacto', 'L.Soto', 'Calle1. Urbanizacion Los Pinos', 'Lima', 'Peru', '97581702', 'luissoto@gmail.com', NULL, 'Cliente');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `invoices`
+--
+
+CREATE TABLE `invoices` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `code` varchar(20) DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'Unpaid',
+  `date_due` date DEFAULT NULL,
+  `client` int(10) UNSIGNED DEFAULT NULL,
+  `client_contact` int(10) UNSIGNED DEFAULT NULL,
+  `client_address` int(10) UNSIGNED DEFAULT NULL,
+  `client_phone` int(10) UNSIGNED DEFAULT NULL,
+  `client_email` int(10) UNSIGNED DEFAULT NULL,
+  `client_website` int(10) UNSIGNED DEFAULT NULL,
+  `client_comments` int(10) UNSIGNED DEFAULT NULL,
+  `subtotal` decimal(9,2) DEFAULT NULL,
+  `discount` decimal(4,2) DEFAULT 0.00,
+  `tax` decimal(9,2) DEFAULT 0.00,
+  `total` decimal(9,2) DEFAULT 0.00,
+  `comments` text DEFAULT NULL,
+  `invoice_template` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `invoices`
+--
+
+INSERT INTO `invoices` (`id`, `code`, `status`, `date_due`, `client`, `client_contact`, `client_address`, `client_phone`, `client_email`, `client_website`, `client_comments`, `subtotal`, `discount`, `tax`, `total`, `comments`, `invoice_template`) VALUES
+(1, '0001', 'Paid', '2020-09-17', 2, 2, 2, 2, NULL, 2, 2, 0.00, 10.00, 18.00, 0.00, '<font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">El cliente ha pagado el articulo a tiempo</font></font>', 'Individuals And Small Companies'),
+(2, '0002', 'Unpaid', '2020-09-21', 3, 3, 3, 3, NULL, 3, 3, 0.00, 5.00, 18.00, 0.00, '<font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">Cliente no ha cancelado el articulo</font></font>', 'Corporate Clients');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `invoice_items`
+--
+
+CREATE TABLE `invoice_items` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `invoice` int(10) UNSIGNED DEFAULT NULL,
+  `item` int(10) UNSIGNED DEFAULT NULL,
+  `unit_price` decimal(10,2) UNSIGNED DEFAULT 0.00,
+  `qty` decimal(9,3) DEFAULT 1.000,
+  `price` decimal(9,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `invoice_items`
+--
+
+INSERT INTO `invoice_items` (`id`, `invoice`, `item`, `unit_price`, `qty`, `price`) VALUES
+(2, NULL, 1, 0.00, 0.000, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `items`
+--
+
+CREATE TABLE `items` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `item_description` text DEFAULT NULL,
+  `unit_price` decimal(10,2) DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `items`
+--
+
+INSERT INTO `items` (`id`, `item_description`, `unit_price`) VALUES
+(1, 'Celular Samsung Galaxy A10', 699.00);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `item_prices`
+--
+
+CREATE TABLE `item_prices` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `item` int(10) UNSIGNED DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT 0.00,
+  `date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `item_prices`
+--
+
+INSERT INTO `item_prices` (`id`, `item`, `price`, `date`) VALUES
+(1, 1, 699.00, '2020-09-17'),
+(2, NULL, 1500.00, '2020-09-17');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `membership_grouppermissions`
+--
+
+CREATE TABLE `membership_grouppermissions` (
+  `permissionID` int(10) UNSIGNED NOT NULL,
+  `groupID` int(11) DEFAULT NULL,
+  `tableName` varchar(100) DEFAULT NULL,
+  `allowInsert` tinyint(4) DEFAULT NULL,
+  `allowView` tinyint(4) NOT NULL DEFAULT 0,
+  `allowEdit` tinyint(4) NOT NULL DEFAULT 0,
+  `allowDelete` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `membership_grouppermissions`
+--
+
+INSERT INTO `membership_grouppermissions` (`permissionID`, `groupID`, `tableName`, `allowInsert`, `allowView`, `allowEdit`, `allowDelete`) VALUES
+(1, 2, 'invoices', 1, 3, 3, 3),
+(2, 2, 'clients', 1, 3, 3, 3),
+(3, 2, 'item_prices', 1, 3, 3, 3),
+(4, 2, 'invoice_items', 1, 3, 3, 3),
+(5, 2, 'items', 1, 3, 3, 3),
+(6, 3, 'invoices', 0, 1, 0, 0),
+(7, 3, 'clients', 0, 1, 0, 0),
+(8, 3, 'item_prices', 0, 0, 0, 0),
+(9, 3, 'invoice_items', 0, 1, 0, 0),
+(10, 3, 'items', 0, 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `membership_groups`
+--
+
+CREATE TABLE `membership_groups` (
+  `groupID` int(10) UNSIGNED NOT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `allowSignup` tinyint(4) DEFAULT NULL,
+  `needsApproval` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `membership_groups`
+--
+
+INSERT INTO `membership_groups` (`groupID`, `name`, `description`, `allowSignup`, `needsApproval`) VALUES
+(1, 'anonymous', 'Anonymous group created automatically on 2020-08-26', 0, 0),
+(2, 'Admins', 'Admin group created automatically on 2020-08-26', 0, 1),
+(3, 'Visitantes', '', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `membership_userpermissions`
+--
+
+CREATE TABLE `membership_userpermissions` (
+  `permissionID` int(10) UNSIGNED NOT NULL,
+  `memberID` varchar(20) NOT NULL,
+  `tableName` varchar(100) DEFAULT NULL,
+  `allowInsert` tinyint(4) DEFAULT NULL,
+  `allowView` tinyint(4) NOT NULL DEFAULT 0,
+  `allowEdit` tinyint(4) NOT NULL DEFAULT 0,
+  `allowDelete` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `membership_userrecords`
+--
+
+CREATE TABLE `membership_userrecords` (
+  `recID` bigint(20) UNSIGNED NOT NULL,
+  `tableName` varchar(100) DEFAULT NULL,
+  `pkValue` varchar(255) DEFAULT NULL,
+  `memberID` varchar(20) DEFAULT NULL,
+  `dateAdded` bigint(20) UNSIGNED DEFAULT NULL,
+  `dateUpdated` bigint(20) UNSIGNED DEFAULT NULL,
+  `groupID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `membership_userrecords`
+--
+
+INSERT INTO `membership_userrecords` (`recID`, `tableName`, `pkValue`, `memberID`, `dateAdded`, `dateUpdated`, `groupID`) VALUES
+(1, 'items', '1', 'administrador', 1598719753, 1600475150, 2),
+(2, 'item_prices', '1', 'administrador', 1598719778, 1600475446, 2),
+(4, 'invoice_items', '2', 'administrador', 1599176673, 1599176673, 2),
+(5, 'clients', '1', 'admin', 1599352287, 1599352287, 2),
+(6, 'item_prices', '2', 'administrador', 1600358482, 1600358488, 2),
+(7, 'clients', '2', 'administrador', 1600478270, 1600478326, 2),
+(8, 'invoices', '1', 'administrador', 1600478516, 1600478516, 2),
+(9, 'clients', '3', 'administrador', 1600478707, 1600478707, 2),
+(10, 'invoices', '2', 'administrador', 1600478777, 1600478777, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `membership_users`
+--
+
+CREATE TABLE `membership_users` (
+  `memberID` varchar(20) NOT NULL,
+  `passMD5` varchar(40) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `signupDate` date DEFAULT NULL,
+  `groupID` int(10) UNSIGNED DEFAULT NULL,
+  `isBanned` tinyint(4) DEFAULT NULL,
+  `isApproved` tinyint(4) DEFAULT NULL,
+  `custom1` text DEFAULT NULL,
+  `custom2` text DEFAULT NULL,
+  `custom3` text DEFAULT NULL,
+  `custom4` text DEFAULT NULL,
+  `comments` text DEFAULT NULL,
+  `pass_reset_key` varchar(100) DEFAULT NULL,
+  `pass_reset_expiry` int(10) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `membership_users`
+--
+
+INSERT INTO `membership_users` (`memberID`, `passMD5`, `email`, `signupDate`, `groupID`, `isBanned`, `isApproved`, `custom1`, `custom2`, `custom3`, `custom4`, `comments`, `pass_reset_key`, `pass_reset_expiry`) VALUES
+('admin', '21232f297a57a5a743894a0e4a801fc3', 'grupodos.unmsm@gmail.com', '2020-08-26', 2, 0, 1, NULL, NULL, NULL, NULL, 'Admin member created automatically on 2020-08-26\nRegistro actualizado automáticamente en 2020-09-15', NULL, NULL),
+('administrador', '0192023a7bbd73250516f069df18b500', 'Sjwk@fkdkd.com', '2020-08-29', 2, 0, 1, 'Admin', 'lima', 'Lima', 'Ny', 'Eejue', NULL, NULL),
+('equipo 2', '4c882dcb24bcb1bc225391a602feca7c', 'equipo2_ideso@gmail.com', '2020-09-18', 3, 0, 1, 'equipo 2', 'equipo2_ideso@gmail.com', 'Lima', 'Lima', 'member signed up through the registration form.', NULL, NULL),
+('guest', NULL, NULL, '2020-08-26', 1, 0, 1, NULL, NULL, NULL, NULL, 'Anonymous member created automatically on 2020-08-26', NULL, NULL),
+('luz elena torres', '333597ff863475f325c6bb5f7286dc3f', 'luzelenatt24@gmail.com', '2020-09-01', 3, 0, 1, 'Luz Elena', 'luzelenatt24@gmail.com', 'Lima', 'Lima', 'member signed up through the registration form.', NULL, NULL),
+('prueba', '8d6b4a87bb0ae12d092f629b10bee3df', 'sdflkjasd@dsfasd.com', '2020-09-01', 3, 0, 1, 'safasdf', 'sfasdf', 'sdfasdf', 'asdfasd', 'member signed up through the registration form.', NULL, NULL);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name_unique` (`name`);
+
+--
+-- Indices de la tabla `invoices`
+--
+ALTER TABLE `invoices`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code_unique` (`code`),
+  ADD KEY `client` (`client`);
+
+--
+-- Indices de la tabla `invoice_items`
+--
+ALTER TABLE `invoice_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `invoice` (`invoice`),
+  ADD KEY `item` (`item`);
+
+--
+-- Indices de la tabla `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `item_prices`
+--
+ALTER TABLE `item_prices`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `item` (`item`);
+
+--
+-- Indices de la tabla `membership_grouppermissions`
+--
+ALTER TABLE `membership_grouppermissions`
+  ADD PRIMARY KEY (`permissionID`);
+
+--
+-- Indices de la tabla `membership_groups`
+--
+ALTER TABLE `membership_groups`
+  ADD PRIMARY KEY (`groupID`);
+
+--
+-- Indices de la tabla `membership_userpermissions`
+--
+ALTER TABLE `membership_userpermissions`
+  ADD PRIMARY KEY (`permissionID`);
+
+--
+-- Indices de la tabla `membership_userrecords`
+--
+ALTER TABLE `membership_userrecords`
+  ADD PRIMARY KEY (`recID`),
+  ADD UNIQUE KEY `tableName_pkValue` (`tableName`,`pkValue`),
+  ADD KEY `pkValue` (`pkValue`),
+  ADD KEY `tableName` (`tableName`),
+  ADD KEY `memberID` (`memberID`),
+  ADD KEY `groupID` (`groupID`);
+
+--
+-- Indices de la tabla `membership_users`
+--
+ALTER TABLE `membership_users`
+  ADD PRIMARY KEY (`memberID`),
+  ADD KEY `groupID` (`groupID`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `invoices`
+--
+ALTER TABLE `invoices`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `invoice_items`
+--
+ALTER TABLE `invoice_items`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `items`
+--
+ALTER TABLE `items`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `item_prices`
+--
+ALTER TABLE `item_prices`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `membership_grouppermissions`
+--
+ALTER TABLE `membership_grouppermissions`
+  MODIFY `permissionID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `membership_groups`
+--
+ALTER TABLE `membership_groups`
+  MODIFY `groupID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `membership_userpermissions`
+--
+ALTER TABLE `membership_userpermissions`
+  MODIFY `permissionID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `membership_userrecords`
+--
+ALTER TABLE `membership_userrecords`
+  MODIFY `recID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `items`
+--
+ALTER TABLE `items`
+  ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`id`) REFERENCES `item_prices` (`id`) ON DELETE NO ACTION;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
